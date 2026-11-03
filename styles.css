@@ -1,0 +1,408 @@
+:root {
+    color-scheme: dark;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    --page: #0c0d12;
+    --surface: rgba(22, 24, 34, 0.88);
+    --surface-raised: #1b1d29;
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #f3f2f8;
+    --muted: #9293a5;
+    --accent: #a855f7;
+    --accent-bright: #c084fc;
+    --green: #5ee0a0;
+    --red: #ff858e;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    padding: 48px 24px;
+    background:
+        radial-gradient(ellipse at 50% -20%, rgba(128, 62, 190, 0.22), transparent 55%),
+        var(--page);
+    color: var(--text);
+    font-size: 15px;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button,
+input,
+select {
+    min-height: 46px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+button {
+    padding: 0 16px;
+    color: var(--text);
+    cursor: pointer;
+    transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease, opacity 140ms ease;
+}
+
+button:not(:disabled):hover {
+    transform: translateY(-1px);
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--accent-bright);
+    outline-offset: 2px;
+}
+
+button:disabled,
+select:disabled {
+    cursor: not-allowed;
+    opacity: 0.48;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 0 14px;
+    background: #11121a;
+    color: var(--text);
+}
+
+input::placeholder {
+    color: #686a7c;
+}
+
+select {
+    cursor: pointer;
+}
+
+.app-shell {
+    width: min(100%, 760px);
+    margin: 0 auto;
+}
+
+.app-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 32px;
+}
+
+.brand-mark {
+    display: grid;
+    width: 54px;
+    height: 54px;
+    flex: 0 0 54px;
+    place-items: center;
+    border: 1px solid rgba(192, 132, 252, 0.35);
+    border-radius: 17px;
+    background: linear-gradient(145deg, #a855f7, #7027c4);
+    box-shadow: 0 8px 30px rgba(168, 85, 247, 0.2);
+    color: white;
+    font-size: 27px;
+    font-weight: 750;
+}
+
+.eyebrow {
+    margin: 0 0 6px;
+    color: var(--accent-bright);
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.16em;
+}
+
+h1,
+h2,
+p {
+    margin-top: 0;
+}
+
+h1 {
+    margin-bottom: 3px;
+    font-size: 27px;
+    letter-spacing: -0.04em;
+}
+
+.subtitle {
+    margin-bottom: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.requirements-card,
+.downloader-card,
+.output-card {
+    margin-bottom: 16px;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.13);
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.section-heading .eyebrow {
+    margin-bottom: 5px;
+}
+
+h2 {
+    margin-bottom: 0;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+}
+
+.status-note,
+.live-indicator {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.reqs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.reqs p {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    padding: 0 13px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.requirement-name {
+    color: #d7d6e1;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status {
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.status[data-state="installed"] {
+    color: var(--green);
+}
+
+.status[data-state="installed"]::before {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    vertical-align: 1px;
+}
+
+.status[data-state="missing"],
+.status[data-state="error"] {
+    color: var(--red);
+}
+
+.status[data-state="checking"] {
+    color: #c9c4d5;
+}
+
+.video-downloader label,
+.output-path-picker > label,
+.field-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #d8d7e2;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.video-url-picker,
+.directory-picker {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.video-url-picker input {
+    flex: 1;
+}
+
+.button-secondary {
+    flex: 0 0 auto;
+    border-color: rgba(255, 255, 255, 0.12);
+    background: #242532;
+    color: #dedce8;
+}
+
+.button-secondary:not(:disabled):hover {
+    border-color: rgba(192, 132, 252, 0.55);
+    background: #2a2938;
+}
+
+.options-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 12px;
+    margin-top: 17px;
+}
+
+.field-group {
+    min-width: 0;
+}
+
+.button-primary {
+    min-width: 164px;
+    border-color: transparent;
+    background: linear-gradient(110deg, #9333ea, #7c3aed);
+    box-shadow: 0 7px 22px rgba(124, 58, 237, 0.2);
+    font-weight: 700;
+}
+
+.button-primary:not(:disabled):hover {
+    background: linear-gradient(110deg, #a34df0, #8b5cf6);
+}
+
+.button-primary span {
+    margin-left: 8px;
+    font-size: 18px;
+    vertical-align: -1px;
+}
+
+.output-path-picker {
+    margin-top: 19px;
+}
+
+.output-card {
+    padding-bottom: 16px;
+}
+
+.output-heading {
+    margin-bottom: 14px;
+}
+
+.live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.live-indicator span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 10px rgba(94, 224, 160, 0.55);
+}
+
+.output {
+    min-height: 126px;
+    max-height: 260px;
+    overflow: auto;
+    padding: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 10px;
+    background: #0b0c11;
+    color: #a8e8c5;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 12px;
+    line-height: 1.65;
+    text-align: left;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.output-placeholder {
+    color: #666879;
+}
+
+.output-stderr {
+    color: var(--red);
+}
+
+footer {
+    padding: 4px 0;
+    color: #737486;
+    font-size: 11px;
+    text-align: center;
+}
+
+footer span {
+    color: #aaa6ba;
+    font-weight: 650;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 28px 14px;
+    }
+
+    .app-header {
+        margin-bottom: 23px;
+    }
+
+    .requirements-card,
+    .downloader-card,
+    .output-card {
+        padding: 17px;
+    }
+
+    .reqs {
+        grid-template-columns: 1fr;
+    }
+
+    .options-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .button-primary {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
+
+@media (max-width: 390px) {
+    .video-url-picker,
+    .directory-picker {
+        align-items: stretch;
+    }
+
+    .video-url-picker,
+    .directory-picker {
+        flex-direction: column;
+    }
+
+    .video-url-picker button,
+    .directory-picker button {
+        width: 100%;
+    }
+
+    .options-row {
+        grid-template-columns: 1fr;
+    }
+
+    .button-primary {
+        grid-column: auto;
+    }
+}

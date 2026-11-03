@@ -1,0 +1,15 @@
+{
+  "name": "grinder",
+  "version": "1.0.0",
+  "description": "YouTube video downloader based on yt-dlp",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^45.2.1"
+  },
+  "allowScripts": {
+    "electron@45.2.1": true
+  }
+}

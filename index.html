@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grinder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="app-shell">
+        <header class="app-header">
+            <div class="brand-mark" aria-hidden="true">G</div>
+            <div>
+                <p class="eyebrow">VIDEO DOWNLOADER</p>
+                <h1>Grinder</h1>
+                <p class="subtitle">Download videos with yt-dlp</p>
+            </div>
+        </header>
+
+        <section class="requirements-card" aria-labelledby="requirements-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">SYSTEM STATUS</p>
+                    <h2 id="requirements-title">Requirements</h2>
+                </div>
+                <span class="status-note">Needed to download</span>
+            </div>
+            <div class="reqs">
+                <p><span class="requirement-name">yt-dlp</span><span id="ytdlp-install-status" class="status" data-state="checking" role="status" aria-live="polite">Checking...</span></p>
+                <p><span class="requirement-name">FFmpeg</span><span id="ffmpeg-install-status" class="status" data-state="checking" role="status" aria-live="polite">Checking...</span></p>
+            </div>
+        </section>
+
+        <section class="downloader-card" aria-labelledby="download-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">GET STARTED</p>
+                    <h2 id="download-title">New download</h2>
+                </div>
+            </div>
+
+            <div class="video-downloader">
+                <label for="video-url">YouTube URL</label>
+                <div class="video-url-picker">
+                    <input type="url" id="video-url" name="video-url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="url">
+                    <button id="paste-link-button" class="button-secondary" type="button" onclick="pasteVideoUrl()">Paste link</button>
+                </div>
+
+                <div class="options-row">
+                    <div class="field-group">
+                        <label for="format-select">Format</label>
+                        <select id="format-select">
+                            <option value="mp4">MP4</option>
+                            <option value="mp3">MP3</option>
+                            <option value="mkv">MKV</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label for="quality-select">Quality</label>
+                        <select id="quality-select">
+                            <option value="best">Best available</option>
+                            <option value="4k">4K</option>
+                            <option value="1440p">1440p</option>
+                            <option value="1080p">1080p</option>
+                            <option value="720p">720p</option>
+                        </select>
+                    </div>
+                    <button id="download-button" class="button-primary" onclick="downloadVideo()" disabled>Download video <span aria-hidden="true">→</span></button>
+                </div>
+            </div>
+
+            <div class="output-path-picker">
+                <label for="output-path">Save to</label>
+                <div class="directory-picker">
+                    <input type="text" id="output-path" placeholder="Default download location" aria-label="Output directory">
+                    <button id="browse-button" class="button-secondary" type="button" onclick="browseOutputDirectory()">Browse</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="output-card" aria-labelledby="output-title">
+            <div class="section-heading output-heading">
+                <div>
+                    <p class="eyebrow">ACTIVITY</p>
+                    <h2 id="output-title">Output</h2>
+                </div>
+                <span class="live-indicator"><span aria-hidden="true"></span> Live log</span>
+            </div>
+            <div class="output" id="output" role="log" aria-live="polite">
+                <span class="output-placeholder">Download progress and messages will appear here.</span>
+            </div>
+        </section>
+        <footer>Powered by <span>yt-dlp</span></footer>
+        <footer>This program is vibe-coded</footer>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
