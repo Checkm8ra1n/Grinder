@@ -4,12 +4,37 @@
   "description": "YouTube video downloader based on yt-dlp",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder"
   },
   "devDependencies": {
-    "electron": "^45.2.1"
+    "electron": "^45.2.1",
+    "electron-builder": "^26.18.0"
+  },
+  "overrides": {
+    "minimatch": "^11.0.1"
   },
   "allowScripts": {
-    "electron@45.2.1": true
+    "electron@45.2.1": true,
+    "electron-winstaller@5.4.0": true
+  },
+  "build": {
+    "appId": "com.checkm8ra1n.grinder",
+    "productName": "Grinder",
+    "mac": {
+      "identity": null
+    },
+    "directories": {
+      "output": "release-dist"
+    },
+    "files": [
+      "index.html",
+      "styles.css",
+      "script.js",
+      "main.js",
+      "preload.js",
+      "package.json"
+    ],
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}"
   }
 }

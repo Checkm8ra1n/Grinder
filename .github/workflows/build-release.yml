@@ -1,0 +1,112 @@
+name: Build and release
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: grinder-build-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: Linux
+            runner: ubuntu-latest
+            builder_args: --linux AppImage deb
+            artifact_path: |
+              release-dist/*.AppImage
+              release-dist/*.deb
+          - platform: Windows
+            runner: windows-latest
+            builder_args: --win nsis
+            artifact_path: release-dist/*.exe
+          - platform: macOS
+            runner: macos-latest
+            builder_args: --mac dmg zip --universal
+            artifact_path: |
+              release-dist/*.dmg
+              release-dist/*.zip
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run dist -- ${{ matrix.builder_args }}
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: grinder-${{ matrix.platform }}
+          path: ${{ matrix.artifact_path }}
+          if-no-files-found: error
+          compression-level: 0
+
+  release:
+    name: Replace video release assets
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download platform builds
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Remove existing release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view video --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' > release-assets-to-delete.txt; then
+            while IFS= read -r asset; do
+              if [ -n "$asset" ]; then
+                gh release delete-asset video "$asset" --repo "$GITHUB_REPOSITORY" --yes
+              fi
+            done < release-assets-to-delete.txt
+          else
+            echo "No existing video release; one will be created."
+          fi
+
+      - name: Publish builds to the video release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ github.token }}
+          tag_name: video
+          target_commitish: ${{ github.sha }}
+          name: Grinder builds
+          body: |
+            Latest Windows, macOS, and Linux builds of Grinder.
+
+            Built from commit ${{ github.sha }}.
+          files: release-assets/*
+          overwrite_files: true
+          fail_on_unmatched_files: true
