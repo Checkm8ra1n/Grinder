@@ -2,10 +2,14 @@
   "name": "grinder",
   "version": "1.0.0",
   "description": "YouTube video downloader based on yt-dlp",
+  "author": {
+    "name": "Checkm8ra1n",
+    "email": "110713827+Checkm8ra1n@users.noreply.github.com"
+  },
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder"
+    "dist": "electron-builder --publish never"
   },
   "devDependencies": {
     "electron": "^45.2.1",
@@ -21,6 +25,9 @@
   "build": {
     "appId": "com.checkm8ra1n.grinder",
     "productName": "Grinder",
+    "linux": {
+      "maintainer": "110713827+Checkm8ra1n@users.noreply.github.com"
+    },
     "mac": {
       "identity": null
     },
